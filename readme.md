@@ -12,6 +12,7 @@ irked by their 10-device limit.
 + an AWS account
 + MySQL
 
+
 + clone the app
 + create an AWS account and an S3 bucket
 + create an AWS IAM user with S3 full access
