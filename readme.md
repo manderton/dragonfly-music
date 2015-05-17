@@ -8,12 +8,11 @@ irked by their 10-device limit.
 ### INSTALLATION
 
 #### Requirements
-
 + PHP 5.4 or higher
 + an AWS account
 + MySQL
 
-
+#### Steps
 + clone the app
 + create an AWS account and an S3 bucket
 + create an AWS IAM user with S3 full access
