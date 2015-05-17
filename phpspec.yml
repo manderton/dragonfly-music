@@ -1,0 +1,5 @@
+suites:
+    main:
+        namespace: Dragonfly
+        psr4_prefix: Dragonfly
+        src_path: app
