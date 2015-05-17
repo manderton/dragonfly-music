@@ -8,7 +8,8 @@ irked by their 10-device limit.
 ### INSTALLATION
 
 #### Requirements
-+ PHP 5.4+
+
++ PHP 5.4 or higher
 + an AWS account
 + MySQL
 
@@ -20,6 +21,7 @@ irked by their 10-device limit.
 
 
 ### TODO
++ 'next' and 'previous' buttons for lists of songs
 + need an Angular or React single-page app interface so that music continues to play as you move around the app
 + need to fix multi-file upload
 + fix file permissions on AWS upload so not readable by the world
