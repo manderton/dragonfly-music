@@ -19,7 +19,9 @@ irked by their 10-device limit.
 + add IAM credentials to .env file (copy from .env.example)
 
 
-### TODO
+### TODO (in no particular order)
++ desktop notifications - "Now Playing", etc.
++ allow downloading of artists, albums, playlists, etc.
 + 'next' and 'previous' buttons for lists of songs
 + need an Angular or React single-page app interface so that music continues to play as you move around the app
 + need to fix multi-file upload

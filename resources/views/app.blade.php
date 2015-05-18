@@ -69,6 +69,7 @@
 
 	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 	<script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.1/js/bootstrap.min.js"></script>
+	<script src="/js/all.js"></script>
 	<script>
 	var dragSong = null;
 	$( function() {
@@ -76,11 +77,13 @@
 
 	    $('.play-button').click( function(e) {
 	        e.preventDefault();
+	        document.getElementById('player').pause()
 	        $('.play-button').removeClass('fa-volume-up').addClass('fa-play');
 	        $('#player').attr('src', "{{\Config::get('dragonfly.s3_base')}}" + $(this).data('song-url'));
 	        document.getElementById('player').play()
 	        $('#song').text($(this).data('song'));
 	        $('#now-playing').show();
+	        notifyNewSong({ title: $(this).data('song-title'), artist: $(this).data('song-artist'), album: $(this).data('song-album') })
 	        $(this).removeClass('fa-play').addClass('fa-volume-up');
 	    });
 	    $('#create-playlist').click( function(e) {

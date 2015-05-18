@@ -1,14 +1,16 @@
 
 <div class="well">
     <div class="row">
+    <?php /*
       <div class="col-md-2">
       <button onclick="document.getElementById('player').play()"><i class="fa fa-play"></i></button>
       <button onclick="document.getElementById('player').pause()"><i class="fa fa-pause"></i></button>
       <button onclick="document.getElementById('player').volume-=0.1"><i class="fa fa-volume-down"></i></button>
       <button onclick="document.getElementById('player').volume+=0.1"><i class="fa fa-volume-up"></i></button>
       </div>
-      <div class="col-md-4">
-    <audio id="player" controls autoplay>
+    */ ?>
+      <div class="col-md-6">
+    <audio id="player" controls>
       <?php if ($songs): ?>
         <?php foreach ($songs as $song): ?>
           <source src="{{\Config::get('dragonfly.s3_base')}}{!! urlencode($song->filename) !!}" type="audio/mp3">

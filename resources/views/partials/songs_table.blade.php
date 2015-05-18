@@ -17,7 +17,10 @@
         <td><a href="/artists/{{$song->artist->id}}">{{$song->artist->name}}</a></td>
         <td><a href="/albums/{{$song->album->id}}">{{$song->album->name}}</a></td>
         <td><i class="fa fa-play play-button" data-song="{{$song->name}}"
-                data-song-url="{!! urlencode($song->filename) !!}"></i>&nbsp;
+                data-song-url="{!! urlencode($song->filename) !!}"
+                data-song-title="{{$song->name}}"
+                data-song-artist="{{$song->artist->name}}"
+                data-song-album="{{$song->album->name}}"></i>&nbsp;
 
 <div class="btn-group">
   <button type="button" class="btn btn-default dropdown-toggle btn-xs" data-toggle="dropdown" aria-expanded="false">
