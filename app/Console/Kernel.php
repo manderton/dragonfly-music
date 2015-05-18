@@ -12,6 +12,7 @@ class Kernel extends ConsoleKernel {
 	 */
 	protected $commands = [
 		'Dragonfly\Console\Commands\Inspire',
+		'Dragonfly\Console\Commands\ScanCommand',
 	];
 
 	/**
