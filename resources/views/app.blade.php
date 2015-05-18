@@ -51,8 +51,9 @@
 	</nav>
 
 	<div class="container">
-
+	<div style="position: fixed;">
 @include('partials.player', ['songs' => isset($songs) ? $songs : null])
+	</div>
 
 <div class="row">
   <div class="col-md-3">
