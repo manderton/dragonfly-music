@@ -4,7 +4,8 @@ use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 
-use PhpId3\Id3TagsReader;
+use Dragonfly\Song;
+use Dragonfly\Music;
 
 class ScanCommand extends Command {
 
@@ -21,6 +22,11 @@ class ScanCommand extends Command {
 	 * @var string
 	 */
 	protected $description = 'Scan S3 bucket for new music';
+	protected $s3;
+	protected $local;
+
+	// TODO this sucks...
+	protected $user = 1;
 
 	/**
 	 * Create a new command instance.
@@ -30,6 +36,8 @@ class ScanCommand extends Command {
 	public function __construct()
 	{
 		parent::__construct();
+		$this->s3 = \Storage::disk('s3');
+		$this->local = \Storage::disk('local');
 	}
 
 	/**
@@ -41,31 +49,62 @@ class ScanCommand extends Command {
 	{
 		$this->info('firing...');
 
-		$s3 = \Storage::disk('s3');
-		$local = \Storage::disk('local');
-
-		$songs = $s3->allFiles();
+		$songs = $this->s3->allFiles();
 
 		foreach ($songs as $song) {
-			$url = \Config::get('dragonfly.s3_base') . urlencode($song);
-			$this->comment('getting the song at url: ' . $url);
 
-			// download it...
-			$content = $s3->get($song);
-			$local->put("tmp-" . $song, $content);
+			// do we know about the song already?
+			if (!$dbsong = Song::where('filename', $song)->first()) {
+				$this->info('******************************************');
+				$this->info('fetching new song: ' . $song);
 
-			// write a local tmp:
-			$id3 = new Id3TagsReader(fopen(storage_path() . "/music/tmp-" . $song, "rb"));
-			$id3->readAllTags();
-			$tags = $id3->getId3Array();
-			foreach ($tags as $k => $v) {
-				if ($k != 'APIC') {
-					foreach ($v as $x => $y) {
-						$this->info($x . ": " . $y);
-					}
-				}
+				$this->handleSong($song);
+			} else {
+				$this->comment('already know about ' . $song . '.... skipping...');
 			}
 		}
+		$this->info('DONE!');
+	}
+
+	private function handleSong($song)
+	{
+		$this->comment('processing new song: ' . $song);
+
+		// download it...
+		$content = $this->s3->get($song);
+		$this->local->put($song, $content);
+
+		if ($songdata = Music::readTags(storage_path() . "/music/" . $song)) {
+			$this->logSong($song, $songdata);
+
+		} else {
+			$this->error('not enough data about song to write to db...');
+		}
+
+		// delete it...
+		$this->info('deleting local copy...');
+		$this->local->delete($song);
+	}
+
+	private function logSong($filename, $songdata)
+	{
+		if ($artist_id = Music::writeArtist($songdata['artist'], $this->user)) {
+			$this->comment('successfully wrote artist to db: ' . $artist_id);
+
+			if ($album_id = Music::writeAlbum($songdata['album'], $artist_id, $this->user)) {
+				$this->comment('successfully wrote album to db: ' . $album_id);
+
+				$song_id = Music::writeSong($songdata, $this->user, $filename, $artist_id, $album_id);
+				$this->comment('successfully wrote song to db: ' . $song_id);
+
+				$this->info('++++++++++++++++++++++++++++');
+				$this->comment('song data successfully written to database...');
+				$this->info('++++++++++++++++++++++++++++');
+
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/**
