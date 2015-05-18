@@ -51,10 +51,11 @@
 	</nav>
 
 	<div class="container">
-	<div style="position: fixed;">
+	<div style="position: fixed; z-index: 100;">
 @include('partials.player', ['songs' => isset($songs) ? $songs : null])
 	</div>
 
+<div style="margin-top: 100px;">
 <div class="row">
   <div class="col-md-3">
 @include('partials.sidebar')
@@ -62,6 +63,7 @@
   <div class="col-md-9">
 	@yield('content')
   </div>
+</div>
 </div>
 
 	</div>
