@@ -6,6 +6,7 @@ use Dragonfly\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Dragonfly\Album;
 use Dragonfly\Song;
+use Dragonfly\Gracenote;
 
 class AlbumsController extends Controller {
 
@@ -57,11 +58,20 @@ class AlbumsController extends Controller {
 	 */
 	public function show($id)
 	{
-		if ($album = Album::where('user_id', \Auth::user()->id)->where('id', $id)->first()) {
+		if ($album = Album::with('artist')
+						->where('user_id', \Auth::user()->id)
+						->where('id', $id)
+						->first()) {
 			$songs = Song::where('album_id', $id)
 						->orderBy('track_number','asc')
 						->orderBy('name', 'asc')
 						->get();
+
+			if ($gn = new Gracenote(\Auth::user()->id)) {
+				\Log::info('got a Gracenote instance...');
+				$gn_artist = $gn->track_search($songs[0]->name, $album->artist->name, $album->name);
+				view()->share(compact('gn_artist'));
+			}
 			return view('albums.show')->with(compact('album','songs'));
 		}
 	}

@@ -13,6 +13,9 @@
   </div>
 </div>
 
+<?php if (isset($gn_artist)): ?>
+  <?php dd($gn_artist); ?>
+<?php endif; ?>
 
 <table class="table table-striped table-hover table-responsive">
 <?php foreach ($songs as $song): ?>
