@@ -125,7 +125,7 @@
 	function getPlaylists() {
 		$('#playlists-list').html('Loading playlists...');
 		console.log('getting playlists...');
-		$.get("/playlists", function(data) {
+		$.get("/playlists/get_list", function(data) {
 			$('#playlists-list').html('');
 			console.log(JSON.stringify(data));
 			$.each(data.playlists, function(k, v) {

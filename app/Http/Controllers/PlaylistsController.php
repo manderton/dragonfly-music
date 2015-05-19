@@ -22,17 +22,32 @@ class PlaylistsController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function index()
+	public function get_list()
 	{
 		$playlists = Playlist::where('user_id', \Auth::user()->id)
 							->orderBy('name', 'asc')
-							->paginate(25);
+							->get();
+
 		$playlists_and_counts = [];
 		foreach ($playlists as $playlist) {
 			$playlists_and_counts[$playlist->id]['name'] = $playlist->name;
 			$playlists_and_counts[$playlist->id]['count'] = PlaylistSong::where('playlist_id', $playlist->id)->count();
 		}
 		return response()->json(['playlists' => $playlists_and_counts]);
+	}
+
+	/**
+	 * Display a listing of the resource.
+	 *
+	 * @return Response
+	 */
+	public function index()
+	{
+		$playlists = Playlist::where('user_id', \Auth::user()->id)
+							->orderBy('name', 'asc')
+							->paginate(25);
+
+		return view('playlists.index')->with(compact('playlists'));
 	}
 
 	/**
@@ -109,7 +124,7 @@ class PlaylistsController extends Controller {
 	 */
 	public function destroy($id)
 	{
-		//
+		dd(Playlist::find($id));
 	}
 
 }

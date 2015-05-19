@@ -29,6 +29,7 @@ Route::group(['middleware' => 'auth'], function()
     Route::get('/albums/artist/{id}', 'AlbumsController@artist');
     Route::resource('albums', 'AlbumsController');
     Route::resource('songs', 'SongsController');
+    Route::get('/playlists/get_list', 'PlaylistsController@get_list');
     Route::post('/playlists/add_song/{playlist}/{song}', 'PlaylistsController@add_song');
     Route::resource('playlists', 'PlaylistsController');
 });

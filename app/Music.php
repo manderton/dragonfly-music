@@ -32,7 +32,7 @@ class Music {
                     $tagdata['album'] = self::cleanString($value['body']);
                     break;
                 case 'TRCK':
-                    $tagdata['track_number'] = self::cleanString($value['body']);
+                    $tagdata['track_number'] = self::getTrack($value['body']);
                     break;
                 default:
                     break;
@@ -42,6 +42,20 @@ class Music {
         \Log::info('song: ' . $tagdata['song']);
 
         return $tagdata;
+    }
+
+    /**
+     *  TRCK
+     * The 'Track number/Position in set' frame is a numeric string
+     * containing the order number of the audio-file on its original
+     * recording. This MAY be extended with a "/" character and a numeric
+     * string containing the total number of tracks/elements on the original
+     * recording. E.g. "4/9".
+     */
+    public static function getTrack($string)
+    {
+        $parts = explode("/", $string);
+        return $parts[0];
     }
 
     public static function cleanString($string)
