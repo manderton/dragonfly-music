@@ -11,10 +11,6 @@
 |
 */
 
-Route::get('/', 'WelcomeController@index');
-
-Route::get('home', 'HomeController@index');
-
 Route::controllers([
 	'auth' => 'Auth\AuthController',
 	'password' => 'Auth\PasswordController',
@@ -23,6 +19,9 @@ Route::controllers([
 
 Route::group(['middleware' => 'auth'], function()
 {
+    Route::get('/', 'MusicController@index');
+    Route::get('home', 'MusicController@index');
+
     Route::get('/music/upload', 'MusicController@upload');
     Route::resource('music', 'MusicController');
     Route::get('/artists/songs/{id}', 'ArtistsController@songs');

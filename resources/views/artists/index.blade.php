@@ -13,7 +13,7 @@
 <?php foreach ($artists as $artist): ?>
   <div class="col-md-4">
     <div class="thumbnail text-center">
-      <p class="lead"><a href="/music/artist/<?php echo $artist->id; ?>"><?php echo $artist->name; ?></a></p>
+      <p class="lead"><a href="artists/<?php echo $artist->id; ?>"><?php echo $artist->name; ?></a></p>
     </div>
   </div>
   <?php

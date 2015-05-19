@@ -58,7 +58,10 @@ class AlbumsController extends Controller {
 	public function show($id)
 	{
 		if ($album = Album::where('user_id', \Auth::user()->id)->where('id', $id)->first()) {
-			$songs = Song::where('album_id', $id)->get();
+			$songs = Song::where('album_id', $id)
+						->orderBy('track_number','asc')
+						->orderBy('name', 'asc')
+						->get();
 			return view('albums.show')->with(compact('album','songs'));
 		}
 	}

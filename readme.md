@@ -26,3 +26,5 @@ irked by their 10-device limit.
 + need an Angular or React single-page app interface so that music continues to play as you move around the app
 + need to fix multi-file upload
 + fix file permissions on AWS upload so not readable by the world
++ create a 'Refresh Library' function that will nuke users's songs, artists and albums and rescan S3
+    + this will also need to refresh playlists and get rid of files that were changed/removed

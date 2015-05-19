@@ -101,12 +101,12 @@ class Music {
                         ->first();
         if (!$db_song) {
             $db_song = song::create([
-                'user_id'   => $user_id,
-                'album_id'  => $album_id,
-                'artist_id' => $artist_id,
-                'name'      => $data['song'],
-                'track_number'      => $data['track_number'],
-                'filename'  => $filename,
+                'user_id'       => $user_id,
+                'album_id'      => $album_id,
+                'artist_id'     => $artist_id,
+                'name'          => $data['song'],
+                'track_number'  => $data['track_number'],
+                'filename'      => $filename,
             ]);
         }
         \Log::info('returning song id: ' . $db_song->id);
